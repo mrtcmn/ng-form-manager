@@ -1,0 +1,288 @@
+<form [formGroup]="_FormGroup2" novalidate *ngIf="_formData && !editable">
+  <div *ngIf="!justView" [ngClass]="[stylesConfig.formname]">{{_formData['formData'].formName}}</div>
+  <div *ngIf="!justView" [ngClass]="[stylesConfig.formdecs]">{{_formData['formData'].decs}}</div>
+  <div *ngIf="questions">
+    <div *ngFor="let question of questions['controls']; let i=index" [formGroupName]="i"
+         [ngClass]="[stylesConfig.questionMain, _formData['formData'].questions[i].questionType == 'ta' ? 'nfc-ta' : '' ]"
+         [class.active]="i == selectedArea">
+      <!-- The repeated address template -->
+      <div style="width:100%;">
+
+        <div [ngClass]="stylesConfig.questionText">
+          {{_formData['formData'].questions[i].question}}
+        </div>
+        <div [ngClass]="stylesConfig.answersMain" formArrayName="answers">
+          <div
+            [ngClass]="[stylesConfig.answersG,'control','direction',_formData['formData'].questions[i].answerAlign == 'h' ? 'horizontal' : 'vertical',_formData['formData'].questions[i].questionType == 'na' ? 'destroy' : '']"
+            *ngFor="let answer of question['controls'].answers['controls']; let k=index"
+            [formGroupName]="k">
+            <span
+              [ngClass]="['s', _formData['formData'].questions[i].answerAlign == 'h' ? 'horizontal' : 'vertical','sub']"
+              *ngIf="_formData['formData'].questions[i].questionType == 'mc' ">
+              <div [ngClass]="['item','nfc-labelControlR']"
+                   *ngFor="let answer1 of _formData['formData'].questions[i].answers; let r=index">
+
+                <label [ngClass]="stylesConfig.radio">
+                  <input type="radio" formControlName="index" value="{{_formData['formData'].questions[i].answers[r].index}}">
+                  <span class="checkmark"></span> {{_formData['formData'].questions[i].answers[r].value}}
+            </label>
+          </div>
+
+          </span>
+
+            <div [ngClass]="[stylesConfig.answerGroup,stylesConfig.answerNumber]"
+                 *ngIf="_formData['formData'].questions[i].questionType == 'na' ">
+              <label> {{_formData['formData'].questions[i].answers[k].value}}</label>
+              <input [ngClass]="[stylesConfig.input,'is-size-7-touch']" type="number" formControlName="value">
+
+            </div>
+
+
+            <div class="nfc-labelControl" *ngIf="_formData['formData'].questions[i].questionType == 'cb' ">
+              <label [ngClass]="[stylesConfig.answersG,'control']">
+                <input type="checkbox" formControlName="select">
+                <span class="checkmark"></span>
+                {{_formData['formData'].questions[i].answers[k].value}}
+              </label>
+            </div>
+
+            <div [ngClass]="[stylesConfig.answersG,'control']" *ngIf="_formData['formData'].questions[i].questionType == 'wa' ">
+              <textarea class="textarea" rows="2" placeholder="Write here!" [ngClass]="stylesConfig.answersInput"
+                        formControlName="value" inputGrow></textarea>
+            </div>
+
+
+            <div [ngClass]='[stylesConfig.answersG, "control", "expand"]'
+                 *ngIf="_formData['formData'].questions[i].questionType == 'ls' ">
+              <div>Selected value is:
+                {{_FormGroup2['controls'][i]['controls'].answers['controls'][k]['controls'].value.value}}
+              </div>
+              <p [ngClass]='["direction", "horizontal"]'>
+                <span class="num">{{_formData['formData'].questions[i].answers[0].min_val}}</span>
+                <span class="slider">  <input [ngClass]="['control','expand']" type="range"
+                                              min="{{_formData['formData'].questions[i].answers[0].min_val}}"
+                                              max="{{_formData['formData'].questions[i].answers[0].max_val}}"
+                                              step="{{_formData['formData'].questions[i].answers[0].step}}"
+                                              [ngClass]="stylesConfig.answersInput" formControlName="value"></span>
+                <span class="num">{{_formData['formData'].questions[i].answers[0].max_val}}</span>
+              </p>
+            </div>
+
+
+            <label [ngClass]='[stylesConfig.answersG, "control", "checkbox"]'
+                   *ngIf="_formData['formData'].questions[i].questionType == 'ta' && _formData['formData'].questions[i].answers[k].req == true ">
+              <input type="checkbox" formControlName="select">
+              {{_formData['formData'].questions[i].answers[k].value == "" ?_formData['formData'].questions[i].answers[k].value : "I
+              accept/Yes" }}
+            </label>
+
+
+          </div>
+          <!-- answers loop end -->
+        </div>
+        <!-- answers array end -->
+      </div>
+      <!-- style div end -->
+      <hr>
+
+    </div>
+    <!-- question loop end -->
+
+
+  </div>
+
+
+</form>
+
+
+<form [formGroup]="_FormGroup" novalidate *ngIf="_formData && editable">
+
+
+  <div [ngClass]="stylesConfig.field">
+    <div class="control">
+      <textarea class="textarea" rows="1" placeholder="Form Name"
+                [ngClass]="[stylesConfig.formNameInput,stylesConfig.input,stylesConfig.borderless]"
+                formControlName="formName"
+                inputGrow></textarea>
+    </div>
+  </div>
+
+  <div [ngClass]="stylesConfig.field">
+    <div class="control">
+      <textarea class="textarea" rows="1" placeholder="Description"
+                [ngClass]="[stylesConfig.formDecsInput,stylesConfig.input,stylesConfig.borderless]"
+                formControlName="decs" inputGrow></textarea>
+    </div>
+  </div>
+
+
+  <div formArrayName="questions" *ngIf="questions">
+
+    <div *ngFor="let question of fg1Questions['controls']; let i=index" [formGroupName]="i"
+         [ngClass]="stylesConfig.questionMain" [class.active]="i == selectedArea">
+      <!-- The repeated address template -->
+      <div style="width:100%;">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+          <div class="navbar-brand form-group form-inline">
+            <label class="checkbox">
+              <input type="checkbox">
+              Required*
+            </label>
+          </div>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+              <li></li>
+            </ul>
+            <div [ngClass]="[stylesConfig.verticalInputs, 'nfc-input-padding' ,'my-2 my-lg-0']">
+              <select class="form-control"
+                      *ngIf="fg1Questions.controls[i].value.questionType == 'mc' || fg1Questions.controls[i].value.questionType == 'cb'"
+                      formControlName="answerAlign">
+                <option value="v" selected>Vertical</option>
+                <option value="h">Horizontal</option>
+              </select>
+              <select class="form-control"
+                      [attr.wh]="i"
+                      (change)="questionType($event)"
+                      formControlName="questionType">
+                <option value="wa">Write Area</option>
+                <option value="mc" selected>Multiple Choise</option>
+                <option value="cb">Checkbox</option>
+                <option value="ls">Linear Scale</option>
+                <option value="ta">Text Area</option>
+                <option value="da">Date</option>
+                <option value="na">Number Area</option>
+              </select>
+
+              <button (click)="deleteQuestion(i)" type="button" [ngClass]="stylesConfig.input"
+                      class="btn btn-outline-danger">
+                Delete
+              </button>
+              <button (click)="duplicateItem(i)" type="button" [ngClass]="stylesConfig.input"
+                      class="btn btn-outline-primary">
+                Duplicate
+              </button>
+
+            </div>
+          </div>
+        </nav>
+        <div class="field ">
+          <textarea class="textarea" rows="1"
+                    placeholder="{{ (questions.controls[i].value.questionType == 'ta')? 'Text Area' : 'Question '+(i+1) }}"
+                    [ngClass]="[stylesConfig.input,stylesConfig.borderless,'nfc-edit-inputs','nfc-edit-question']"
+                    formControlName="question" inputGrow></textarea>
+        </div>
+
+
+        <div [ngClass]="stylesConfig.answersMain" formArrayName="answers" class="well well-lg">
+
+          <div *ngFor="let answer of question.controls.answers.controls; let k=index"
+               [formGroupName]="k">
+
+            <div [ngClass]="stylesConfig.edit_answer"
+                 *ngIf="question.value.questionType == 'mc' || question.value.questionType == 'cb' || question.value.questionType == 'na'">
+
+              <!-- The repeated address template -->
+              <i (click)="deleteAnswer(i,k)" class="material-icons delete">delete_outline</i>
+              <i *ngIf="question.value.questionType == 'na'" class="material-icons">filter_1</i>
+              <i *ngIf="question.value.questionType == 'mc'" class="material-icons">radio_button_unchecked</i>
+              <i *ngIf="question.value.questionType == 'cb'" class="material-icons">check_box_outline_blank</i>
+              <div [ngClass]="[stylesConfig.fieldHasAdd,'control','expand']">
+                <div class="control expand">
+                  <textarea class="textarea" rows="1" placeholder="Answer {{k+1}}"
+                            [ngClass]="[stylesConfig.answersInput,stylesConfig.borderless]"
+                            formControlName="value" inputGrow></textarea>
+                </div>
+              </div>
+            </div>
+            <!-- Question Type end -->
+
+            <div [ngClass]="stylesConfig.edit_answer" *ngIf="question.value.questionType == 'wa' ">
+              <!-- The repeated address template -->
+              <i class="material-icons control" style="opacity:0;">delete_forever</i>
+              <i class="material-icons control" style="opacity:0;">delete_forever</i>
+              <div [ngClass]="[stylesConfig.fieldHasAdd,'control','expand']">
+                <div class="control expand">
+                  <textarea class="textarea" rows="2" placeholder="Descript to desired answer."
+                            [ngClass]="[stylesConfig.answersInput,stylesConfig.borderless]" formControlName="value"
+                            inputGrow></textarea>
+                </div>
+              </div>
+            </div>
+            <!-- Question Type end -->
+
+
+            <div [ngClass]="stylesConfig.edit_answer" *ngIf="question.value.questionType == 'ls' ">
+              <!-- The repeated address template -->
+              <i class="material-icons control" style="opacity:0;">delete_forever</i>
+              <i class="material-icons control" style="opacity:0;">delete_forever</i>
+              <div [ngClass]="[stylesConfig.fieldHasAdd,'control']">
+                <div class="field">
+                  <label class="label">Minimum value</label>
+                  <div class="control">
+                    <input type="number" class="input" placeholder="Minumum Value"
+                           [ngClass]="[stylesConfig.answersInput,stylesConfig.borderless]"
+                           formControlName="min_val">
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="label">Step size</label>
+                  <div class="control">
+                    <input type="number" class="input" placeholder="Minumum Value"
+                           [ngClass]="[stylesConfig.answersInput,stylesConfig.borderless]"
+                           formControlName="step">
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="label">Maximum value</label>
+                  <div class="control">
+                    <input type="number" class="input" placeholder="Minumum Value"
+                           [ngClass]="[stylesConfig.answersInput,stylesConfig.borderless]"
+                           formControlName="max_val">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Question Type end -->
+            <div [ngClass]="stylesConfig.edit_answer" *ngIf="question.value.questionType == 'da' ">
+              <!-- The repeated address template -->
+              <i class="material-icons control" style="opacity:0;">delete_forever</i>
+              <i class="material-icons control" style="opacity:0;">delete_forever</i>
+              <div [ngClass]="[stylesConfig.fieldHasAdd,'control','expand']">
+                <div class="control expand">
+                  <textarea class="textarea" rows="1" placeholder="Explain, what for you need date?"
+                            [ngClass]="[stylesConfig.answersInput,stylesConfig.borderless]" formControlName="date"
+                            inputGrow></textarea>
+                </div>
+              </div>
+            </div>
+            <!-- Question Type end -->
+            <div [ngClass]="stylesConfig.edit_answer" *ngIf="question.value.questionType == 'ta' ">
+              <!-- The repeated address template -->
+              <i class="material-icons control" style="opacity:0;">delete_forever</i>
+              <i class="material-icons control" style="opacity:0;">delete_forever</i>
+              <div [ngClass]="[stylesConfig.fieldHasAdd,'control','expand']">
+                <div class="control expand">
+                  <label class="checkbox">
+                    <input type="checkbox" formControlName="req">
+                    User have to che....
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- Question Type end -->
+
+          </div>
+          <!-- answers loop end -->
+
+        </div>
+
+      </div>
+      <hr>
+    </div>
+    <!-- question loop end -->
+
+
+  </div>
+
+</form>
