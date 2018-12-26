@@ -3,7 +3,5 @@
  */
 
 
-export * from './lib/formCreator.module';
-
-export * from './lib/main/formCreatorForm.component';
+export * from './lib/formManager.module';
 export * from './lib/main/formViewer.component';

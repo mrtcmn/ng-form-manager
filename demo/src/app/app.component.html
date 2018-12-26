@@ -1,0 +1,124 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div class="container">
+  <div class="row">
+    <div class="col-4">
+      <div class="list-group" id="list-tab" role="tablist">
+        <a class="list-group-item list-group-item-action" href="#" (click)="tabToogler(1)">Basic form viewer</a>
+        <a class="list-group-item list-group-item-action" href="#" (click)="tabToogler(2)">Form create/modify</a>
+        <a class="list-group-item list-group-item-action" href="#" (click)="tabToogler(3)">Pass form input data</a>
+      </div>
+    </div>
+    <div class="col-8">
+      <div *ngIf="tabID == 1">
+
+        <div class="card">
+          <h5 class="card-header">Basic form viewer</h5>
+          <div class="card-body">
+            <ng-form-manager (formUpdated)="formUpdatedBasic($event)"
+                             [justView]='false'
+                             [formData]='vals'
+                             [stylesConfig]="classNames">
+            </ng-form-manager>
+            <hr>
+
+            <h4>Input : [justView]='false'</h4>
+            <p>This means, show all form aspect, included form headline and description.
+              Otherwise will be shown only questions.</p>
+            <h4>Input : [formData]='vals'</h4>
+            <p>All quesitions and answers data can pass with this input.
+              Before you created this data using form edit feature.-link
+            </p>
+
+            <h4>Output : (formUpdated)="formUpdatedBasic($event)</h4>
+            <p>While inputs are changing triger (formUpdated) output.</p>
+            <p>You can see output json on below.</p>
+            <code>
+              <pre [innerHtml]="basicFormInputDatas | prettyjson:3"></pre>
+            </code>
+
+
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="tabID == 2">
+        <div class="card">
+          <h5 class="card-header">Form create/modify</h5>
+          <div class="card-body">
+            <ng-form-manager (formUpdatedEditable)="formUpdatedEditableHandler($event)"
+                             [editable]="true"
+                             [formData]='vals'
+                             [stylesConfig]="classNames">
+            </ng-form-manager>
+
+            <hr>
+            <p>If you want to create empty form, you can pass empty form data [formData] input like below.</p>
+            <pre [innerHtml]="emptyData | prettyjson" ></pre>
+
+            <button class="btn-default" (click)="emptyDataLoader()">Try It!</button>
+
+            <h4>Input : [editable]='true'</h4>
+            <p>This input will convert form to editable status. </p>
+
+            <h4>Output : (formUpdatedEditable)="formUpdatedEditableHandler($event)</h4>
+            <p>While question datas are changing, will triger (formUpdated) output.</p>
+
+            <p>Store changed value like this;
+              <code>{{"let _data = {
+                'formData': {},
+                'metas': {}
+                };"}}
+              </code>
+              <br>
+              <code>{{" _data['formData'] = $event; "}}</code></p>
+
+            <p>Because <code>[formData]</code> input accept form data like this schema.</p>
+
+            <p>You can pass anything inside <code>metas</code> object. Example: when created, by who, tags etc.</p>
+
+
+            <p>You can see output json on below.</p>
+            <code>
+              <pre [innerHtml]="basicFormDatas | prettyjson:3"></pre>
+            </code>
+
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="tabID == 3">
+        <div class="card">
+          <h5 class="card-header">Input Data</h5>
+          <div class="card-body">
+            <ng-form-manager (formUpdated)="formUpdatedDemo($event)"
+                             [editable]="false"
+                             [formData]='inputDataChangeDemo'
+                             [formInputData]="demoArryVar"
+                             [stylesConfig]="classNames">
+            </ng-form-manager>
+
+            <button type="button" class="btn btn-primary" (click)="formInputChangeDemo(0)">Example 1</button>
+            <button type="button" class="btn btn-primary" (click)="formInputChangeDemo(1)">Example 2</button>
+            <button type="button" class="btn btn-primary" (click)="formInputChangeDemo(2)">Example 3</button>
+
+            <h4>Input : [formInputData]='data'</h4>
+            <p>If you show data on form before it filled, you can use <code>[formInputData]</code> input for passing value.</p>
+
+            <h4>Output : (formUpdatedEditable)="formUpdatedEditableHandler($event)</h4>
+            <p>While question datas are changing, will triger (formUpdated) output.</p>
+
+
+
+          </div>
+        </div>
+      </div>
+
+
+
+    </div>
+  </div>
+</div>
+
+
+

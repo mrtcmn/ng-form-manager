@@ -57,7 +57,7 @@
               <div>Selected value is:
                 {{_FormGroup2['controls'][i]['controls'].answers['controls'][k]['controls'].value.value}}
               </div>
-              <p [ngClass]='["direction", "horizontal"]'>
+              <p [ngClass]='[stylesConfig.questionSlider, "direction", "horizontal"]'>
                 <span class="num">{{_formData['formData'].questions[i].answers[0].min_val}}</span>
                 <span class="slider">  <input [ngClass]="['control','expand']" type="range"
                                               min="{{_formData['formData'].questions[i].answers[0].min_val}}"
@@ -90,10 +90,7 @@
 
 
   </div>
-
-
 </form>
-
 
 <form [formGroup]="_FormGroup" novalidate *ngIf="_formData && editable">
 
@@ -101,7 +98,7 @@
   <div [ngClass]="stylesConfig.field">
     <div class="control">
       <textarea class="textarea" rows="1" placeholder="Form Name"
-                [ngClass]="[stylesConfig.formNameInput,stylesConfig.input,stylesConfig.borderless]"
+                [ngClass]="[stylesConfig.edit_formName,stylesConfig.input,stylesConfig.borderless]"
                 formControlName="formName"
                 inputGrow></textarea>
     </div>
@@ -110,7 +107,7 @@
   <div [ngClass]="stylesConfig.field">
     <div class="control">
       <textarea class="textarea" rows="1" placeholder="Description"
-                [ngClass]="[stylesConfig.formDecsInput,stylesConfig.input,stylesConfig.borderless]"
+                [ngClass]="[stylesConfig.edit_formDecs,stylesConfig.input,stylesConfig.borderless]"
                 formControlName="decs" inputGrow></textarea>
     </div>
   </div>
@@ -124,14 +121,9 @@
       <div style="width:100%;">
 
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-          <div class="navbar-brand form-group form-inline">
-            <label class="checkbox">
-              <input type="checkbox">
-              Required*
-            </label>
-          </div>
-          <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
-            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+
+          <div class="collapse navbar-collapse">
+            <ul class="navbar-nav mr-auto mt-2">
               <li></li>
             </ul>
             <div [ngClass]="[stylesConfig.verticalInputs, 'nfc-input-padding' ,'my-2 my-lg-0']">
@@ -168,7 +160,7 @@
         </nav>
         <div class="field ">
           <textarea class="textarea" rows="1"
-                    placeholder="{{ (questions.controls[i].value.questionType == 'ta')? 'Text Area' : 'Question '+(i+1) }}"
+                    placeholder="{{ (question.value.questionType == 'ta')? 'Text Area' : 'Question '+(i+1) }}"
                     [ngClass]="[stylesConfig.input,stylesConfig.borderless,'nfc-edit-inputs','nfc-edit-question']"
                     formControlName="question" inputGrow></textarea>
         </div>
@@ -274,6 +266,9 @@
 
           </div>
           <!-- answers loop end -->
+          <div class="" *ngIf="question.value.questionType == 'mc' || question.value.questionType == 'cb'  || question.value.questionType == 'na' ">
+            <button (click)="fg1_normaladdAnswer(i,k)" class="btn btn-default"><i class="material-icons">add_box</i> Answer Add</button>
+          </div>
 
         </div>
 
@@ -284,5 +279,5 @@
 
 
   </div>
-
+  <button type="button" (click)="fg1addItem()" class="btn btn-secondary btn-lg btn-block nfc-addQuestion"><i class="material-icons">add_box</i> Add Question</button>
 </form>

@@ -1,56 +1,50 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule, FormArray } from '@angular/forms';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, OnDestroy} from '@angular/core';
+import {FormBuilder, FormGroup, FormsModule, FormArray} from '@angular/forms';
 
 // import { Resizer } from './directives.resize';
-import { FormMain, Questions, Answers, formInit } from './class/forms';
+import {FormMain, Questions, Answers, formInit} from './class/forms';
 
 
 @Component({
-  selector: 'form-creator-view',
+  selector: 'ng-form-manager',
   templateUrl: './formViewer.component.html',
   styleUrls: ['./style.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class formViewer implements OnInit, OnDestroy {
-  simpleDrop: any = null;
+
   oldData: Array<any> = ['mc'];
   _FormGroup: FormGroup;
   _FormGroup2: FormArray;
   selectedArea: number;
   _formData: any;
-  @Input() editable : false;
+  cameData: any;
+  k: any;
 
-  @Input() _form: FormMain;
+  @Input() editable: false;
   @Input() stylesConfig: any = {
     formname: 'nfc-fv-formName',
     formdecs: 'nfc-fv-formDecs',
-    questionText: 'nfc-fv-qText',
-    answersMain: 'form-inline',
-    answersG: 'form-group',
-    answerGroup: '',
+    questionText: 'h3',
+    questionSlider: 'nfc-slider',
+    answersMain: 'nfc-edit-answers',
+    answersG: '',
+    answerGroup: 'form-group',
     answerNumber: '',
     verticalInputs: 'form-inline',
     borderless: 'borderless-input',
+    edit_answer: 'nfc-edit-answer',
     field: 'field',
-    input: 'nfc-input question',
+    input: 'form-control',
     fieldHasAdd: 'field has-addons',
     answersInput: 'form-control nfc-edit-inputs',
-    formNameInput: 'formname',
-    formDecsInput: 'formdecs',
+    edit_formName: 'formname nfc-edit-inputs',
+    edit_formDecs: 'formdecs nfc-edit-inputs',
     question: 'nfc-question',
     answer: 'nfc-answer',
-    edit_answer: 'form-inline',
     questionMain: 'nfc-question-main',
     radio: 'nfc-radio'
   };
-
-
-  k: any;
-
-  @Input() justView = false;
-  @Output() formUpdated = new EventEmitter();
-  @Output() formUpdatedEditable = new EventEmitter();
-  cameData: any;
 
   @Input() set formData(data: any) {
     if (data != null) {
@@ -70,7 +64,7 @@ export class formViewer implements OnInit, OnDestroy {
             this._FormGroup2.push(this.fb.group({
               index: questionArray[i].index,
               answers: this.fb.array([
-                this.fb.group({ index: questionArray[i].answers[0].index })
+                this.fb.group({index: questionArray[i].answers[0].index})
               ])
             }));
             break;
@@ -79,13 +73,13 @@ export class formViewer implements OnInit, OnDestroy {
             this._FormGroup2.push(this.fb.group({
               index: questionArray[i].index,
               answers: this.fb.array([
-                this.fb.group({ index: questionArray[i].answers[0].index, select: "" })
+                this.fb.group({index: questionArray[i].answers[0].index, select: ''})
               ])
             }));
 
             for (let k = 1; k < answersArray.length; k++) {
               this.answers(i).push(this.fb.group(
-                { index: answersArray[k].index, select: "" }
+                {index: answersArray[k].index, select: ''}
               ));
             }
             break;
@@ -94,7 +88,7 @@ export class formViewer implements OnInit, OnDestroy {
             this._FormGroup2.push(this.fb.group({
               index: questionArray[i].index,
               answers: this.fb.array([
-                this.fb.group({ index: questionArray[i].answers[0].index, value: "" })
+                this.fb.group({index: questionArray[i].answers[0].index, value: ''})
               ])
             }));
             break;
@@ -103,15 +97,15 @@ export class formViewer implements OnInit, OnDestroy {
             this._FormGroup2.push(this.fb.group({
               index: questionArray[i].index,
               answers: this.fb.array([
-                this.fb.group({ index: questionArray[i].answers[0].index, value: "" })
+                this.fb.group({index: questionArray[i].answers[0].index, value: ''})
               ])
             }));
             break;
           }
           case ('na'): {
-            let ansaRR =  this.fb.array([]);
-            for( let t of answersArray) {
-              ansaRR.push(this.fb.group({ index: t.index, value: "" }));
+            let ansaRR = this.fb.array([]);
+            for (let t of answersArray) {
+              ansaRR.push(this.fb.group({index: t.index, value: ''}));
             }
 
             this._FormGroup2.push(this.fb.group({
@@ -119,14 +113,14 @@ export class formViewer implements OnInit, OnDestroy {
               answers: ansaRR
             }));
 
-              console.log(this._FormGroup2);
+            console.log(this._FormGroup2);
             break;
           }
           case ('ta'): {
             this._FormGroup2.push(this.fb.group({
               index: questionArray[i].index,
               answers: this.fb.array([
-                this.fb.group({ index: questionArray[i].answers[0].index, select: "" })
+                this.fb.group({index: questionArray[i].answers[0].index, select: ''})
               ])
             }));
             break;
@@ -134,22 +128,9 @@ export class formViewer implements OnInit, OnDestroy {
         }
 
 
-
-
       }
 
-      try {
-        console.log("bu ise fc")
-        console.log(this.cameData)
-        this._FormGroup2.setValue(this.cameData);
-
-      } catch (e) {
-        console.log(e);
-      }
-
-
-
-      console.log(this._FormGroup2)
+      console.log(this._FormGroup2);
       this._formData = data;
       this.createForm2(this._formData);
       this._FormGroup.valueChanges
@@ -160,9 +141,25 @@ export class formViewer implements OnInit, OnDestroy {
 
     }
   }
+
   @Input() set formInputData(data: any) {
     this.cameData = data;
+    try {
+      console.log('bu ise fc');
+      console.log(this.cameData);
+      this._FormGroup2.setValue(this.cameData);
+
+    } catch (e) {
+      console.log(e);
+    }
+
   }
+
+  @Input() justView = false;
+
+  @Output() formUpdated = new EventEmitter();
+  @Output() formUpdatedEditable = new EventEmitter();
+
 
   constructor(
     private fb: FormBuilder) {
@@ -183,50 +180,54 @@ export class formViewer implements OnInit, OnDestroy {
 
   }
 
-
   createForm() {
     this._FormGroup2 = this.fb.array([this.fb.group({
       index: 0,
       answers: this.fb.array([
-        this.fb.group({ index: 0 })
+        this.fb.group({index: 0})
       ])
-    })])
+    })]);
   }
 
   get fg1Questions(): FormArray {
     return this._FormGroup.get('questions') as FormArray;
   }
-  fg1questionSingle(index): FormGroup { return this.fg1Questions.at(index) as FormGroup; }
+
+  fg1questionSingle(index): FormGroup {
+    return this.fg1Questions.at(index) as FormGroup;
+  }
+
   fg1answers(index): FormArray {
     return this.fg1questionSingle(index).get('answers') as FormArray;
   }
+
   fg1addAnswer(index: number, data?: any, type?: string) {
-    if (type == "ls") {
-      this.fg1answers(index).push(this.fb.group({ max_val: data.max_val, min_val: data.min_val, step: data.step, index: data.index  }));
-    } else if (type == "da") {
-      this.fg1answers(index).push(this.fb.group({ date: data.date , index: data.index  }));
-    } else if (type == "ta") {
-      this.fg1answers(index).push(this.fb.group({ req: data.req, value: data.value, index: data.index  }));
+    if (type == 'ls') {
+      this.fg1answers(index).push(this.fb.group({max_val: data.max_val, min_val: data.min_val, step: data.step, index: data.index}));
+    } else if (type == 'da') {
+      this.fg1answers(index).push(this.fb.group({date: data.date, index: data.index}));
+    } else if (type == 'ta') {
+      this.fg1answers(index).push(this.fb.group({req: data.req, value: data.value, index: data.index}));
     } else {
-      this.fg1answers(index).push(this.fb.group({ value: data.value, index: data.index }));
+      this.fg1answers(index).push(this.fb.group({value: data.value, index: data.index}));
     }
 
   }
 
 
-    fg1_normaladdAnswer(index: number, type? : string) {
-      let d = new Date();
-      if ( type == "ls" ) {
-        this.fg1answers(index).push(this.fb.group({ max_val: 100, min_val: 0, step : 5, index: d.getTime() }));
-      } else if ( type == "da" ) {
-        this.fg1answers(index).push(this.fb.group({ date: '', index: d.getTime() }));
-      }  else if ( type == "ta" ) {
-        this.fg1answers(index).push(this.fb.group({ req: false ,value: '', index: d.getTime() }));
-      } else {
-        this.fg1answers(index).push(this.fb.group({ value: '', index: d.getTime() }));
-      }
-
+  fg1_normaladdAnswer(index: number, type?: string) {
+    let d = new Date();
+    if (type == 'ls') {
+      this.fg1answers(index).push(this.fb.group({max_val: 100, min_val: 0, step: 5, index: d.getTime()}));
+    } else if (type == 'da') {
+      this.fg1answers(index).push(this.fb.group({date: '', index: d.getTime()}));
+    } else if (type == 'ta') {
+      this.fg1answers(index).push(this.fb.group({req: false, value: '', index: d.getTime()}));
+    } else {
+      this.fg1answers(index).push(this.fb.group({value: '', index: d.getTime()}));
     }
+
+  }
 
   fg1questionAdd(_qArray: any) {
     this.fg1Questions.push(this.fb.group({
@@ -244,28 +245,28 @@ export class formViewer implements OnInit, OnDestroy {
     let d = new Date();
     this.fg1Questions.push(this.fb.group({
       index: d.getTime(),
-      question: '',
+      question: 'New question...',
       questionType: 'mc',
       answerAlign: 'v',
       required: false,
       answers: this.fb.array([
-        this.fb.group({ value: '', index: d.getTime()+1 })
+        this.fb.group({value: '', index: d.getTime() + 1})
       ])
     }));
     this.oldData.push('mc');
   }
 
-  deleteAnswer(q: number, a : number) {
+  deleteAnswer(q: number, a: number) {
     this.fg1answers(q).removeAt(a);
   }
 
-  deleteQuestion (i) {
+  deleteQuestion(i) {
     this.fg1Questions.removeAt(i);
   }
 
   duplicateItem(i) {
     let d = new Date();
-    let item = this.fg1Questions.controls[i].value
+    let item = this.fg1Questions.controls[i].value;
     console.log(item);
     this.questions.push(this.fb.group({
       index: d.getTime(),
@@ -276,17 +277,17 @@ export class formViewer implements OnInit, OnDestroy {
       answers: this.fb.array([])
     }));
 
-    for( let t of item.answers) {
+    for (let t of item.answers) {
       let k = new Date();
       let _i = this.questions.controls.length - 1;
-      if (item.questionType == "ls") {
-        this.fg1answers(_i).push(this.fb.group({ max_val: t.max_val, min_val: t.min_val, step: t.step, index: k.getTime() }));
-      } else if (item.questionType == "da") {
-        this.fg1answers(_i).push(this.fb.group({ date: '', index: k.getTime() }));
-      } else if (item.questionType == "ta") {
-        this.fg1answers(_i).push(this.fb.group({ req: t.req, value: t.value, index: k.getTime() }));
+      if (item.questionType == 'ls') {
+        this.fg1answers(_i).push(this.fb.group({max_val: t.max_val, min_val: t.min_val, step: t.step, index: k.getTime()}));
+      } else if (item.questionType == 'da') {
+        this.fg1answers(_i).push(this.fb.group({date: '', index: k.getTime()}));
+      } else if (item.questionType == 'ta') {
+        this.fg1answers(_i).push(this.fb.group({req: t.req, value: t.value, index: k.getTime()}));
       } else {
-        this.fg1answers(_i).push(this.fb.group({ value: t.value, index: k.getTime() }));
+        this.fg1answers(_i).push(this.fb.group({value: t.value, index: k.getTime()}));
       }
 
     }
@@ -298,7 +299,7 @@ export class formViewer implements OnInit, OnDestroy {
 
   createForm2(data: any) {
 
-    console.log("c2");
+    console.log('c2');
     console.log(data);
     if (data != null) {
       let questionArray = data['formData'].questions;
@@ -317,48 +318,46 @@ export class formViewer implements OnInit, OnDestroy {
           case ('mc'): {
             this.fg1questionAdd(questionArray[i]);
             for (let k = 0; k < answersArray.length; k++) {
-              this.fg1addAnswer(i, answersArray[k], "mc");
+              this.fg1addAnswer(i, answersArray[k], 'mc');
             }
             break;
           }
           case ('cb'): {
             this.fg1questionAdd(questionArray[i]);
             for (let k = 0; k < answersArray.length; k++) {
-              this.fg1addAnswer(i, answersArray[k], "cb");
+              this.fg1addAnswer(i, answersArray[k], 'cb');
             }
             break;
           }
           case ('wa'): {
             this.fg1questionAdd(questionArray[i]);
-              this.fg1addAnswer(i, answersArray[0], "wa");
+            this.fg1addAnswer(i, answersArray[0], 'wa');
             break;
           }
           case ('ls'): {
             this.fg1questionAdd(questionArray[i]);
-              this.fg1addAnswer(i, answersArray[0], "ls");
+            this.fg1addAnswer(i, answersArray[0], 'ls');
             break;
           }
           case ('na'): {
             this.fg1questionAdd(questionArray[i]);
-              for (let k = 0; k < answersArray.length; k++) {
-                this.fg1addAnswer(i, answersArray[k], "na");
-              }
+            for (let k = 0; k < answersArray.length; k++) {
+              this.fg1addAnswer(i, answersArray[k], 'na');
+            }
             break;
           }
           case ('ta'): {
             this.fg1questionAdd(questionArray[i]);
-              this.fg1addAnswer(i, answersArray[0], "ta");
+            this.fg1addAnswer(i, answersArray[0], 'ta');
             break;
           }
         }
 
 
-
-
       }
 
 
-      console.log(this._FormGroup)
+      console.log(this._FormGroup);
 
 
     }
@@ -371,7 +370,7 @@ export class formViewer implements OnInit, OnDestroy {
 
 
     if (event.target.value == 'mc' || event.target.value == 'cb' || event.target.value == 'na') {
-      if (dataOld == 'ls' || dataOld == 'da' || dataOld == 'wa' ) {
+      if (dataOld == 'ls' || dataOld == 'da' || dataOld == 'wa') {
         let indexAnswer = this.fg1answers(index).controls.length;
         for (let k = 0; indexAnswer > k; k++) {
           this.fg1answers(index).removeAt(0);
@@ -385,11 +384,11 @@ export class formViewer implements OnInit, OnDestroy {
         this.fg1answers(index).removeAt(0);
       }
       if (event.target.value == 'ls') {
-        this.fg1_normaladdAnswer(index , 'ls' );
+        this.fg1_normaladdAnswer(index, 'ls');
       } else if (event.target.value == 'da') {
-        this.fg1_normaladdAnswer(index , 'da' );
+        this.fg1_normaladdAnswer(index, 'da');
       } else if (event.target.value == 'ta') {
-        this.fg1_normaladdAnswer(index , 'ta' );
+        this.fg1_normaladdAnswer(index, 'ta');
       } else {
         this.fg1_normaladdAnswer(index);
       }
@@ -400,11 +399,16 @@ export class formViewer implements OnInit, OnDestroy {
     this.oldData[index] = event.target.value;
 
   }
+
   get questions(): FormArray {
     console.log(this._FormGroup2);
     return this._FormGroup2;
   }
-  questionSingle(index): FormGroup { return this.questions.at(index) as FormGroup; }
+
+  questionSingle(index): FormGroup {
+    return this.questions.at(index) as FormGroup;
+  }
+
   answers(index): FormArray {
     return this.questionSingle(index).get('answers') as FormArray;
   }
