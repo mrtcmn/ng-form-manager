@@ -1,12 +1,18 @@
-# ng-form-manager  -Alpha
-Create, modify and view your forms. 
+# ng-form-manager  
+Alpha
+
+Create, modify and view your forms with Json. 
 
 ## Quick start
 
-1. A recommended way to install ***ng-form-manager*** is through [npm](https://www.npmjs.com/package/ng-form-manager) package manager using the following command:
+Recommended way to install ***ng-form-manager*** is through [npm](https://www.npmjs.com/package/ng-form-manager) package manager using the following command:
 
   `npm i ng-form-manager --save`
+  
+Or through [yarn](https://yarnpkg.com/en/package/ng-form-manager)
 
+  `yarn add ng-form-manager`
+  
 ## Install
 
 1. Install as shown in the above section.
@@ -19,7 +25,8 @@ Create, modify and view your forms.
 
 ```imports: [ ... formManagerModule, ... ]```
 
-4. Add Bootstrap CDN script on your `index.html` file:
+4. Add Bootstrap CDN css on your `index.html` file:
+Currently support only Bootstrap CSS for form components.
 
 ```<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.2.1/css/bootstrap.css" />```
 
