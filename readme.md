@@ -3,10 +3,9 @@ Create, modify and view your forms.
 
 ## Quick start
 
-1. A recommended way to install ***ng-form-manager*** is through [npm](https://www.npmjs.com/search?q=ng2-file-upload) package manager using the following command:
+1. A recommended way to install ***ng-form-manager*** is through [npm](https://www.npmjs.com/package/ng-form-manager) package manager using the following command:
 
   `npm i ng-form-manager --save`
-
 
 ## Install
 
@@ -26,8 +25,6 @@ Create, modify and view your forms.
 
 ## Usage
 
-Demo application: 
+Demo application:  [Demo](https://mrtcmn.github.io/)
 
-### License
 
-The MIT License (see the [LICENSE](https://github.com/valor-software/ng2-file-upload/blob/master/LICENSE) file for the full text)
